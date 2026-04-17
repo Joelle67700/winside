@@ -6,7 +6,7 @@ export default async function EventsPage() {
   const supabase = await createSupabaseClient()
 
   const { data: events, error } = await supabase
-    .from('events')
+    .from('evenements')
     .select('*')
     .gte('date', new Date().toISOString())
     .order('date', { ascending: true })
@@ -55,12 +55,9 @@ export default async function EventsPage() {
                   </div>
                 </div>
                 <p className="text-gray-500 line-clamp-3 mb-4">
-                  {event.description}
+                  {event.desc}
                 </p>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-500">
-                    Capacité: {event.capacite} places
-                  </span>
                   <span className="text-indigo-600 font-medium">
                     Voir détails
                   </span>

@@ -22,7 +22,7 @@ export async function getUserProfile() {
   if (!user) return null
 
   const { data: profile } = await supabase
-    .from('profiles')
+    .from('users')
     .select('*')
     .eq('id', user.id)
     .single()
@@ -45,7 +45,7 @@ export async function requireAdmin() {
   const supabase = await createSupabaseClient()
 
   const { data: profile } = await supabase
-    .from('profiles')
+    .from('users')
     .select('role')
     .eq('id', user.id)
     .single()

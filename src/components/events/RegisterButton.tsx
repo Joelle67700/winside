@@ -31,9 +31,9 @@ export default function RegisterButton({ eventId }: RegisterButtonProps) {
       return
     }
 
-    const { error } = await supabase.from('registrations').insert({
+    const { error } = await supabase.from('inscriptions').insert({
       user_id: user.id,
-      event_id: eventId,
+      evenement_id: eventId,
     })
 
     if (error) {

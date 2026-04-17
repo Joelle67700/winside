@@ -4,13 +4,12 @@ import { useState } from 'react'
 
 interface Member {
   id: string
-  nom: string
-  prenom: string
+  name: string
   role: string
   created_at: string
-  registrations?: Array<{
+  inscriptions?: Array<{
     id: string
-    events: { titre: string } | null
+    evenements: { titre: string } | null
   }>
 }
 
@@ -23,14 +22,13 @@ export default function ExportCSVButton({ members }: ExportCSVButtonProps) {
 
   const generateCSV = () => {
     setLoading(true)
-    const headers = ['Nom', 'Prénom', 'Rôle', 'Email', 'Membre depuis', 'Événements inscrits']
+    const headers = ['Nom complet', 'Rôle', 'Email', 'Membre depuis', 'Événements inscrits']
     const rows = members.map((member) => [
-      member.nom,
-      member.prenom,
+      member.name,
       member.role === 'admin' ? 'Admin' : 'Membre',
       `${member.id}@winside-asso.fr`, // Placeholder email since we don't have it
       new Date(member.created_at).toLocaleDateString('fr-FR'),
-      member.registrations?.map(r => r.events?.titre).join('; ') || 'Aucun',
+      member.inscriptions?.map(r => r.evenements?.titre).join('; ') || 'Aucun',
     ])
 
     const csvContent = [

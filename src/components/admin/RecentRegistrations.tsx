@@ -3,8 +3,8 @@
 interface RecentRegistrationsProps {
   registrations: Array<{
     id: string
-    profiles: { nom: string; prenom: string } | null
-    events: { titre: string; date: string } | null
+    users: { name: string } | null
+    evenements: { titre: string; date: string } | null
     created_at: string
   }>
 }
@@ -27,10 +27,10 @@ export default function RecentRegistrations({ registrations }: RecentRegistratio
         >
           <div>
             <p className="text-sm font-medium text-gray-900">
-              {registration.profiles?.prenom} {registration.profiles?.nom}
+              {registration.users?.name}
             </p>
             <p className="text-xs text-gray-500">
-              {registration.events?.titre}
+              {registration.evenements?.titre}
             </p>
           </div>
           <span className="text-xs text-gray-400">

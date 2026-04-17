@@ -8,11 +8,11 @@ export default async function AdminRegistrationsPage() {
   const supabase = await createSupabaseClient()
 
   const { data: registrations } = await supabase
-    .from('registrations')
+    .from('inscriptions')
     .select(`
       *,
-      profiles (nom, prenom),
-      events (titre, date, lieu)
+      users (name),
+      evenements (titre, date, lieu)
     `)
     .order('created_at', { ascending: false })
 
@@ -46,15 +46,15 @@ export default async function AdminRegistrationsPage() {
                 <tr key={registration.id}>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">
-                      {registration.profiles?.prenom} {registration.profiles?.nom}
+                      {registration.users?.name}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {registration.events?.titre}
+                    {registration.evenements?.titre}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {registration.events?.date
-                      ? new Date(registration.events.date).toLocaleDateString('fr-FR')
+                    {registration.evenements?.date
+                      ? new Date(registration.evenements.date).toLocaleDateString('fr-FR')
                       : 'N/A'}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

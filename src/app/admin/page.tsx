@@ -9,30 +9,30 @@ export default async function AdminDashboard() {
 
   // Fetch stats
   const { count: totalEvents } = await supabase
-    .from('events')
+    .from('evenements')
     .select('*', { count: 'exact', head: true })
 
   const { count: totalMembers } = await supabase
-    .from('profiles')
+    .from('users')
     .select('*', { count: 'exact', head: true })
 
   const { count: totalRegistrations } = await supabase
-    .from('registrations')
+    .from('inscriptions')
     .select('*', { count: 'exact', head: true })
 
   // Get upcoming events count
   const { count: upcomingEvents } = await supabase
-    .from('events')
+    .from('evenements')
     .select('*', { count: 'exact', head: true })
     .gte('date', new Date().toISOString())
 
   // Get recent registrations
   const { data: recentRegistrations } = await supabase
-    .from('registrations')
+    .from('inscriptions')
     .select(`
       *,
-      profiles (nom, prenom),
-      events (titre, date)
+      users (name),
+      evenements (titre, date)
     `)
     .order('created_at', { ascending: false })
     .limit(5)

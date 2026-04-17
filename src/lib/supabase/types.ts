@@ -3,47 +3,68 @@ import { createClient } from '@supabase/supabase-js'
 export type Database = {
   public: {
     Tables: {
-      profiles: {
+      users: {
         Row: {
           id: string
-          nom: string
-          prenom: string
+          email: string
+          name: string | null
           role: 'member' | 'admin'
           created_at: string
+          inscriptions?: {
+            id: string
+            evenement_id: string
+            created_at: string
+            evenements?: {
+              id: string
+              titre: string
+              date: string
+              lieu: string
+              desc: string | null
+            } | null
+          }[] | null
         }
         Insert: {
           id?: string
-          nom: string
-          prenom: string
+          email: string
+          name?: string | null
           role?: 'member' | 'admin'
           created_at?: string
         }
         Update: {
           id?: string
-          nom?: string
-          prenom?: string
+          email?: string
+          name?: string | null
           role?: 'member' | 'admin'
           created_at?: string
         }
       }
-      events: {
+      evenements: {
         Row: {
           id: string
           titre: string
           date: string
           lieu: string
-          capacite: number
-          description: string
+          desc: string | null
           created_at: string
           updated_at: string
+          inscriptions?: {
+            id: string
+            user_id: string
+            created_at: string
+            users?: {
+              id: string
+              email: string
+              name: string | null
+              role: string
+            } | null
+          }[] | null
         }
         Insert: {
           id?: string
           titre: string
           date: string
           lieu: string
-          capacite: number
-          description: string
+          desc?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -52,46 +73,59 @@ export type Database = {
           titre?: string
           date?: string
           lieu?: string
-          capacite?: number
-          description?: string
+          desc?: string | null
           created_at?: string
           updated_at?: string
         }
       }
-      registrations: {
+      inscriptions: {
         Row: {
           id: string
           user_id: string
-          event_id: string
+          evenement_id: string
           created_at: string
+          users?: {
+            id: string
+            email: string
+            name: string | null
+            role: string
+            created_at: string
+          } | null
+          evenements?: {
+            id: string
+            titre: string
+            date: string
+            lieu: string
+            desc: string | null
+          } | null
         }
         Insert: {
           id?: string
           user_id: string
-          event_id: string
+          evenement_id: string
           created_at?: string
         }
         Update: {
           id?: string
           user_id?: string
-          event_id?: string
+          evenement_id?: string
           created_at?: string
         }
-      }
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      [_ in never]: never
-    }
-    Enums: {
-      member_role: 'member' | 'admin'
-    }
-  }
-}
+       }
+     }
+     Views: {
+       [_ in never]: never
+     }
+     Functions: {
+       [_ in never]: never
+     }
+     Enums: {
+       user_role: 'member' | 'admin'
+     }
+   }
+ }
 
-export const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+ export const supabaseAdmin = createClient(
+   process.env.NEXT_PUBLIC_SUPABASE_URL!,
+   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+ )

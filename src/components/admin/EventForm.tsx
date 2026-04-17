@@ -8,17 +8,8 @@ interface EventFormProps {
     titre: string
     date: string
     lieu: string
-    capacite: number
-    description: string
+    desc: string
   }
-  // events prop is not currently used but could be used for validation
-  // events?: Array<{
-  //   id: string
-  //   titre: string
-  //   date: string
-  //   lieu: string
-  //   capacite: number
-  // }>
 }
 
 export default function EventForm({ event }: EventFormProps) {
@@ -38,8 +29,7 @@ export default function EventForm({ event }: EventFormProps) {
       titre: formData.get('titre') as string,
       date: formData.get('date') as string,
       lieu: formData.get('lieu') as string,
-      capacite: parseInt(formData.get('capacite') as string, 10),
-      description: formData.get('description') as string,
+      desc: formData.get('desc') as string,
     }
     // Use formValues to avoid unused variable warning
     void formValues
@@ -120,26 +110,12 @@ export default function EventForm({ event }: EventFormProps) {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Capacité
-                </label>
-                <input
-                  type="number"
-                  name="capacite"
-                  defaultValue={event?.capacite || 10}
-                  min="1"
-                  required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Description
                 </label>
                 <textarea
-                  name="description"
+                  name="desc"
                   rows={4}
-                  defaultValue={event?.description}
+                  defaultValue={event?.desc}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 />
               </div>

@@ -10,7 +10,7 @@ export default async function AdminEventsPage() {
   const supabase = await createSupabaseClient()
 
   const { data: events } = await supabase
-    .from('events')
+    .from('evenements')
     .select('*')
     .order('date', { ascending: false })
 
@@ -36,9 +36,6 @@ export default async function AdminEventsPage() {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Lieu
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Capacité
-              </th>
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Actions
               </th>
@@ -57,9 +54,6 @@ export default async function AdminEventsPage() {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {event.lieu}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {event.capacite}
-                  </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <div className="flex justify-end space-x-2">
                       <EventForm event={event} />
@@ -70,7 +64,7 @@ export default async function AdminEventsPage() {
               ))
             ) : (
               <tr>
-                <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
+                <td colSpan={4} className="px-6 py-4 text-center text-gray-500">
                   Aucun événement trouvé
                 </td>
               </tr>

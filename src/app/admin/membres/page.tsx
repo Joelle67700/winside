@@ -9,12 +9,12 @@ export default async function AdminMembersPage() {
   const supabase = await createSupabaseClient()
 
   const { data: members } = await supabase
-    .from('profiles')
+    .from('users')
     .select(`
       *,
-      registrations (
+      inscriptions (
         id,
-        events (titre)
+        evenements (titre)
       )
     `)
     .order('created_at', { ascending: false })
@@ -33,10 +33,7 @@ export default async function AdminMembersPage() {
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Nom
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Prénom
+                Nom complet
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Rôle
@@ -54,10 +51,7 @@ export default async function AdminMembersPage() {
               members.map((member) => (
                 <tr key={member.id}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {member.nom}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {member.prenom}
+                    {member.name}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
@@ -69,7 +63,7 @@ export default async function AdminMembersPage() {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {member.registrations?.length || 0} événement(s)
+                    {member.inscriptions?.length || 0} événement(s)
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {new Date(member.created_at).toLocaleDateString('fr-FR')}
@@ -77,11 +71,11 @@ export default async function AdminMembersPage() {
                 </tr>
               ))
             ) : (
-              <tr>
-                <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
-                  Aucun membre trouvé
-                </td>
-              </tr>
+               <tr>
+                 <td colSpan={4} className="px-6 py-4 text-center text-gray-500">
+                   Aucun membre trouvé
+                 </td>
+               </tr>
             )}
           </tbody>
         </table>

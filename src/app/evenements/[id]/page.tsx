@@ -14,7 +14,7 @@ export default async function EventDetailPage({ params }: PageProps) {
   const supabase = await createSupabaseClient()
 
   const { data: event, error } = await supabase
-    .from('events')
+    .from('evenements')
     .select('*')
     .eq('id', id)
     .single()
@@ -25,12 +25,9 @@ export default async function EventDetailPage({ params }: PageProps) {
 
   // Get registration count
   const { count: registrationCount } = await supabase
-    .from('registrations')
+    .from('inscriptions')
     .select('*', { count: 'exact', head: true })
-    .eq('event_id', id)
-
-  const spotsLeft = event.capacite - (registrationCount || 0)
-  const isFull = spotsLeft <= 0
+    .eq('evenement_id', id)
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -84,9 +81,9 @@ export default async function EventDetailPage({ params }: PageProps) {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                   </svg>
                   <div>
-                    <p className="font-medium">Places disponibles</p>
+                    <p className="font-medium">Inscriptions</p>
                     <p className="text-sm">
-                      {spotsLeft} / {event.capacite}
+                      {registrationCount || 0} inscrits
                     </p>
                   </div>
                 </div>
@@ -97,7 +94,7 @@ export default async function EventDetailPage({ params }: PageProps) {
                   Description
                 </h3>
                 <p className="text-gray-600 whitespace-pre-wrap">
-                  {event.description}
+                  {event.desc}
                 </p>
               </div>
             </div>
@@ -105,16 +102,10 @@ export default async function EventDetailPage({ params }: PageProps) {
             <div>
               <div className="bg-gray-50 rounded-lg p-6 sticky top-6">
                 <h3 className="text-lg font-semibold mb-4">
-                  {isFull ? 'Événement complet' : 'Réserver votre place'}
+                  Réserver votre place
                 </h3>
 
-                {isFull ? (
-                  <div className="text-red-600">
-                    Désolé, il n&apos;y a plus de places disponibles pour cet événement.
-                  </div>
-                ) : (
-                  <RegisterButton eventId={event.id} />
-                )}
+                <RegisterButton eventId={event.id} />
 
                 <div className="mt-6 text-sm text-gray-500">
                   <p>

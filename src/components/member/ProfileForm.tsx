@@ -4,8 +4,7 @@ import { useState } from 'react'
 
 interface ProfileFormProps {
   profile: {
-    nom: string
-    prenom: string
+    name: string
     role: string
     created_at: string
   }
@@ -15,8 +14,7 @@ export default function ProfileForm({ profile }: ProfileFormProps) {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [formData, setFormData] = useState({
-    nom: profile.nom,
-    prenom: profile.prenom,
+    name: profile.name,
   })
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -35,33 +33,16 @@ export default function ProfileForm({ profile }: ProfileFormProps) {
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
         <label
-          htmlFor="nom"
+          htmlFor="name"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Nom
+          Nom complet
         </label>
         <input
           type="text"
-          id="nom"
-          value={formData.nom}
-          onChange={(e) => setFormData({ ...formData, nom: e.target.value })}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-          required
-        />
-      </div>
-
-      <div>
-        <label
-          htmlFor="prenom"
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
-          Prénom
-        </label>
-        <input
-          type="text"
-          id="prenom"
-          value={formData.prenom}
-          onChange={(e) => setFormData({ ...formData, prenom: e.target.value })}
+          id="name"
+          value={formData.name}
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
           required
         />

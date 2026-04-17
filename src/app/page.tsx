@@ -6,7 +6,7 @@ export default async function HomePage() {
 
   // Get upcoming events for homepage
   const { data: events } = await supabase
-    .from('events')
+    .from('evenements')
     .select('*')
     .gte('date', new Date().toISOString())
     .order('date', { ascending: true })
@@ -92,7 +92,7 @@ export default async function HomePage() {
                       </span>
                     </p>
                     <p className="text-sm text-gray-500 line-clamp-2">
-                      {event.description}
+                      {event.desc}
                     </p>
                   </div>
                 </Link>
