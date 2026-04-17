@@ -66,7 +66,7 @@ src/
    ```
 4. **Initialiser la base de données**
    - Exécuter le script SQL dans `supabase/schema.sql` via l'interface Supabase (SQL Editor)
-   - Ce script crée les tables `profiles`, `events`, `registrations` et configure les politiques RLS
+   - Ce script crée les tables `users`, `evenements`, `inscriptions` et configure les politiques RLS
 
 5. **Lancer le développement**
    ```bash
@@ -84,13 +84,26 @@ src/
 
 Le projet est optimisé pour Vercel avec Next.js 14.
 
-## Notes importantes
+## Architecture Supabase
 
-- L'authentification utilise Supabase Auth avec support OAuth (Google, GitHub)
-- Les routes admin sont protégées par middleware (rôle admin requis)
-- L'export CSV est généré côté client
-- Le middleware gère la redirection des utilisateurs non-authentifiés
-- Les politiques RLS (Row Level Security) protègent les données
+### Tables
+
+| Table | Colonnes | Description |
+|-------|----------|-------------|
+| `users` | `id`, `email`, `name`, `role`, `created_at` | Profils utilisateur (étend Supabase Auth) |
+| `evenements` | `id`, `titre`, `date`, `lieu`, `desc`, `created_at`, `updated_at` | Événements de l'association |
+| `inscriptions` | `id`, `user_id`, `evenement_id`, `created_at` | Inscriptions aux événements (unique par user+event) |
+
+### Relations
+- `inscriptions.user_id` → `users.id` (CASCADE)
+- `inscriptions.evenement_id` → `evenements.id` (CASCADE)
+
+### Sécurité
+- **RLS** activé sur toutes les tables
+- Users: voient leur propre profil, admins voient tout
+- Evenements: lecture publique, écriture admin uniquement
+- Inscriptions: users voient leurs inscriptions, admins voient tout
+- Trigger automatique: création du profil `users` lors de l'inscription Auth
 
 ## Variables d'environnement
 
